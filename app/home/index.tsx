@@ -52,11 +52,11 @@ const Home = () => {
                 </Typo>
               </View>
             </View>
-            <TouchableOpacity style={[styles.searchIcon, { backgroundColor: theme.colors.primaryLight }]} onPress={() => {router.push('/profile')}}>
+            <TouchableOpacity style={[styles.searchIcon, { backgroundColor: theme.colors.disabled }]} onPress={() => {router.push('/profile')}}>
               <MaterialIcons
-                name='person'
+                name='settings'
                 size={verticalScale(24)}
-                color={theme.colors.primary}
+                color={theme.colors.white}
                 weight='bold'
               />
             </TouchableOpacity>
