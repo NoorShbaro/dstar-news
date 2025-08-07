@@ -20,19 +20,19 @@ const Profile = () => {
   const router = useRouter();
 
   const accountOptions: accountOptionType[] = [
-    {
-      title: `View Profile`,
-      icon: (
-        <MaterialIcons
-          name='person'
-          size={26}
-          color={theme.colors.white}
-          weight='fill'
-        />
-      ),
-      routeName: '/forms/profileModal',
-      bgColor: '#6366f1'
-    },
+    // {
+    //   title: `View Profile`,
+    //   icon: (
+    //     <MaterialIcons
+    //       name='person'
+    //       size={26}
+    //       color={theme.colors.white}
+    //       weight='fill'
+    //     />
+    //   ),
+    //   routeName: '/forms/profileModal',
+    //   bgColor: '#6366f1'
+    // },
     {
       title: `Term of use`,
       icon: (
@@ -118,7 +118,7 @@ const Profile = () => {
       <View style={styles.container}>
         <BackButton iconSize={28} />
         {/** header */}
-        <Header title='Profile' style={{ marginVertical: spacingY._10 }} />
+        <Header title='Settings' style={{ marginVertical: spacingY._10 }} />
 
         {/** user info */}
         {/* <View style={styles.userInfo}> */}
