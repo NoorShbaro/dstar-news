@@ -1,29 +1,52 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import CustomSplashScreen from "@/components/SplashScreen";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { SplashScreen, Stack } from "expo-router";
+import { useEffect, useState } from "react";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+function RootLayoutInner() {
+  const [isSplashVisible, setSplashVisible] = useState(true);
+  const [isAppReady, setAppReady] = useState(false);
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  useEffect(() => {
+    SplashScreen.preventAutoHideAsync();
+  }, []);
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+  useEffect(() => {
+    const prepareApp = async () => {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setAppReady(true);
+    };
+    prepareApp();
+  }, []);
+
+  useEffect(() => {
+    if (!isSplashVisible && isAppReady) {
+      const timeout = setTimeout(() => {
+        SplashScreen.hideAsync();
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [isSplashVisible, isAppReady]);
+
+  const handleSplashScreenFinish = () => {
+    setSplashVisible(false);
+  };
+
+  if (isSplashVisible || !isAppReady) {
+    return <CustomSplashScreen onFinish={handleSplashScreenFinish} />;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="home/index" />
+    </Stack>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <RootLayoutInner />
     </ThemeProvider>
   );
 }
