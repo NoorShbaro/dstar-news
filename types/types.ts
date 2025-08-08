@@ -61,30 +61,35 @@ export interface CustomButtonProps extends TouchableOpacityProps {
 };
 
 export type ReportListType = {
-    data: ReportType[];
+    data: CategoryType[];
     title?: string;
     loading: boolean;
     emptyListMessage?: string;
     error_network?: string
 };
 
-export type ReportType = {
+export type CategoryType = {
     id: number;
-    citizen_id: number | string;
-    title: string;
-    description: string;
-    status: string;
-    latitude: string;
-    longitude: string;
-    created_at: string;
-    updated_at: string;
-    media: any[];
+    name: string;
+    slug: string;
+    count: number;
+    description?: string;
+};
+
+export type CategorySliderProps = {
+  title?: string;
+  data: CategoryType[];
+  loading?: boolean;
+  error?: string;
+  onSelect?: (categoryId: number) => void; 
+  selectedCategoryId?: number | null;      
+  onCategoryChanged?: (categoryId: number) => void; 
 };
 
 export type ReportItemProps = {
-    item: ReportType;
+    item: CategoryType;
     index: number;
-    handleClick: (item: ReportType) => void;
+    handleClick: (item: CategoryType) => void;
 };
 
 export type ModalWrapperProps = {

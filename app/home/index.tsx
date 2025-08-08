@@ -1,100 +1,127 @@
+import apiClient from '@/api/apiClient'
+import CategorySlider from '@/components/categorySlider'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Typo from '@/components/Typo'
 import { useTheme } from '@/context/ThemeContext'
-import { ReportType } from '@/types/types'
+import { CategoryType } from '@/types/types'
 import { verticalScale } from '@/utils/styling'
-import { useRouter } from 'expo-router'
-// import * as Icons from 'phosphor-react-native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
-import React, { useState } from 'react'
+import { useRouter } from 'expo-router'
+import React, { useEffect, useState } from 'react'
 import { RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native'
 import { styles } from '../../styles/home.styles'
 
 const Home = () => {
-
   const { theme } = useTheme();
   const router = useRouter();
-  const [reports, setReports] = useState<ReportType[]>([]);
-  const [loadingReports, setLoadingReports] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-  });
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [loadingPosts, setLoadingPosts] = useState(false);
+
+  const fetchCategories = async () => {
+    try {
+      setLoadingCategories(true);
+      const res = await apiClient.get('/wp-json/wp/v2/categories');
+      setCategories(res.data);
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      setErrorMessage('Failed to load categories.');
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
+
+  const fetchPosts = async (categoryId: number | null) => {
+    setLoadingPosts(true);
+    try {
+      const url = categoryId
+        ? `/wp-json/wp/v2/posts?categories=${categoryId}`
+        : `/wp-json/wp/v2/posts`;
+      const res = await apiClient.get(url);
+      // console.log('Fetched posts:', res.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setLoadingPosts(false);
+    }
+  };
 
   const onRefresh = async () => {
-    try {
-      setIsRefreshing(true);
+    setIsRefreshing(true);
+    await fetchCategories();
+    await fetchPosts(selectedCategoryId);
+    setIsRefreshing(false);
+  };
 
-      setErrorMessage('')
-    } catch (error) {
-      console.error('Error refreshing data:', error);
-    } finally {
-      setIsRefreshing(false);
+  useEffect(() => {
+    fetchCategories();
+    fetchPosts(null); // Load all posts initially
+  }, []);
+
+  const handleCategoryChange = (categoryId: number) => {
+    if (selectedCategoryId === categoryId) {
+      // Already selected → toggle to "all posts"
+      setSelectedCategoryId(null);
+      fetchPosts(null);
+    } else {
+      setSelectedCategoryId(categoryId);
+      fetchPosts(categoryId);
     }
   };
 
   return (
-      <ScreenWrapper>
-        <View style={styles.container}>
-          {/** header */}
-          <View style={styles.header}>
-            <View style={{ gap: 4 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Typo size={16} color={theme.colors.textPrimary}>
-                  Digital Star
-                </Typo>
-                <Typo size={16} fontWeight={'600'}>
-                  News
-                </Typo>
-              </View>
+    <ScreenWrapper>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={{ gap: 4 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Typo size={16} color={theme.colors.textPrimary}>Digital Star</Typo>
+              <Typo size={16} fontWeight="600">News</Typo>
             </View>
-            <TouchableOpacity style={[styles.searchIcon, { backgroundColor: theme.colors.disabled }]} onPress={() => {router.push('/profile')}}>
-              <MaterialIcons
-                name='settings'
-                size={verticalScale(24)}
-                color={theme.colors.white}
-                weight='bold'
-              />
-            </TouchableOpacity>
           </View>
-
-          <ScrollView
-            contentContainerStyle={styles.scrollViewStyle}
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={onRefresh}
-                colors={[theme.colors.primary]}
-                tintColor={theme.colors.primaryLight}
-              />
-            } >
-            {/** card */}
-            {/* <View>
-            <HomeCard />
-          </View> */}
-          </ScrollView>
-
-          {/* <Button
-            style={[
-              styles.floatingButton,
-            ]}
-            onPress={() => {}}>
+          <TouchableOpacity
+            style={[styles.searchIcon, { backgroundColor: theme.colors.disabled }]}
+            onPress={() => router.push('/settings')}
+          >
             <MaterialIcons
-              name='add'
-              color={theme.colors.background}
-              weight='bold'
+              name="settings"
               size={verticalScale(24)}
+              color={theme.colors.white}
             />
-          </Button> */}
+          </TouchableOpacity>
         </View>
-        {/* {errorMessage == 'Network Error' ? <Typo style={styles.errorText}>{i18n.t('error_network')}</Typo> : null} */}
-      </ScreenWrapper>
-  )
-}
 
-export default Home
+        <ScrollView
+          contentContainerStyle={styles.scrollViewStyle}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              colors={[theme.colors.primary]}
+              tintColor={theme.colors.primaryLight}
+            />
+          }
+        >
+          <CategorySlider
+            // title="Categories"
+            data={categories}
+            loading={loadingCategories}
+            error={errorMessage}
+            onSelect={handleCategoryChange}
+            selectedCategoryId={selectedCategoryId}
+          />
+        </ScrollView>
+      </View>
+    </ScreenWrapper>
+  );
+};
+
+export default Home;
