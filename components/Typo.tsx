@@ -1,9 +1,9 @@
-import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, TextStyle } from 'react-native';
 // import { TypoProps } from '@/types';
-import { verticalScale } from '@/utils/styling';
-import { TypoProps } from '@/types/types';
 import { useTheme } from '@/context/ThemeContext';
+import { TypoProps } from '@/types/types';
+import { verticalScale } from '@/utils/styling';
 
 const Typo = ({
     size,
@@ -11,6 +11,7 @@ const Typo = ({
     fontWeight = '400',
     children,
     style,
+    numberOfLines,
     textProps = {}
 }: TypoProps) => {
 

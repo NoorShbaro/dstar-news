@@ -1,6 +1,7 @@
 import apiClient from '@/api/apiClient'
 import CategorySlider from '@/components/categorySlider'
 import ScreenWrapper from '@/components/ScreenWrapper'
+import TopSlider from '@/components/topSlider'
 import Typo from '@/components/Typo'
 import { useTheme } from '@/context/ThemeContext'
 import { CategoryType } from '@/types/types'
@@ -21,6 +22,7 @@ const Home = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(false);
+  const [posts, setPosts] = useState([]);
 
   const fetchCategories = async () => {
     try {
@@ -37,19 +39,19 @@ const Home = () => {
   };
 
   const fetchPosts = async (categoryId: number | null) => {
-    setLoadingPosts(true);
-    try {
-      const url = categoryId
-        ? `/wp-json/wp/v2/posts?categories=${categoryId}`
-        : `/wp-json/wp/v2/posts`;
-      const res = await apiClient.get(url);
-      // console.log('Fetched posts:', res.data);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    } finally {
-      setLoadingPosts(false);
-    }
-  };
+  setLoadingPosts(true);
+  try {
+    const url = categoryId
+  ? `/wp-json/wp/v2/posts?categories=${categoryId}&_embed`
+  : `/wp-json/wp/v2/posts?_embed`;
+    const res = await apiClient.get(url);
+    setPosts(res.data); // ✅ Store posts
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  } finally {
+    setLoadingPosts(false);
+  }
+};
 
   const onRefresh = async () => {
     setIsRefreshing(true);
@@ -117,6 +119,8 @@ const Home = () => {
             onSelect={handleCategoryChange}
             selectedCategoryId={selectedCategoryId}
           />
+
+          <TopSlider data={posts} />
         </ScrollView>
       </View>
     </ScreenWrapper>

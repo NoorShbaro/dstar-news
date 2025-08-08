@@ -37,6 +37,7 @@ export type TypoProps = {
     children: any | null;
     style?: TextStyle;
     textProps?: TextProps;
+    numberOfLines? : number;
 };
 
 export type BackButtonProps = {
@@ -121,4 +122,17 @@ export type SkeletonProps = {
     //   orientation?: 'horizontal' | 'vertical';
     radius?: number;
     style?: ViewStyle;
+};
+
+export type TopSliderItemProps = {
+  item: any;
+  index: number;
+  onPress?: (id: number) => void;
+};
+
+export type TopSliderProps = {
+  data: any[];
+  loading?: boolean;
+  error?: string;
+  onSelect?: (id: number) => void;
 };
