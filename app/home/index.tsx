@@ -23,7 +23,9 @@ const Home = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(false);
+  const [loadingBreakingNews, setLoadingBreakingNews] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [breakingNews, setBreakingNews] = useState([]);
 
   const fetchCategories = async () => {
     try {
@@ -54,16 +56,31 @@ const Home = () => {
   }
 };
 
+  const fetchBreakingNews = async () => {
+  setLoadingBreakingNews(true);
+  try {
+    const url = `/wp-json/wp/v2/posts?categories=163&_embed`
+    const res = await apiClient.get(url);
+    setBreakingNews(res.data);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  } finally {
+    setLoadingBreakingNews(false);
+  }
+};
+
   const onRefresh = async () => {
     setIsRefreshing(true);
     await fetchCategories();
     await fetchPosts(selectedCategoryId);
+    await fetchBreakingNews()
     setIsRefreshing(false);
   };
 
   useEffect(() => {
     fetchCategories();
     fetchPosts(null); // Load all posts initially
+    fetchBreakingNews()
   }, []);
 
   const handleCategoryChange = (categoryId: number) => {
@@ -107,8 +124,8 @@ const Home = () => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={onRefresh}
-              colors={[theme.colors.primary]}
-              tintColor={theme.colors.primaryLight}
+              colors={[theme.colors.primaryLight]}
+              tintColor={theme.colors.white}
             />
           }
         >
@@ -121,7 +138,7 @@ const Home = () => {
             selectedCategoryId={selectedCategoryId}
           />
 
-          <TopSlider data={posts} loading={loadingPosts}/>
+          <TopSlider data={breakingNews} loading={loadingBreakingNews}/>
           <News data={posts} loading={loadingPosts}/>
         </ScrollView>
       </View>

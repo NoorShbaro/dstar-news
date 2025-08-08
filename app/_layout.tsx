@@ -1,6 +1,6 @@
 import CustomSplashScreen from "@/components/SplashScreen";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { SplashScreen, Stack } from "expo-router";
+import { router, SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 
 function RootLayoutInner() {
@@ -23,6 +23,7 @@ function RootLayoutInner() {
     if (!isSplashVisible && isAppReady) {
       const timeout = setTimeout(() => {
         SplashScreen.hideAsync();
+        router.replace("/home");
       }, 500);
       return () => clearTimeout(timeout);
     }

@@ -17,20 +17,23 @@ const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
   if (loading) {
     return (
       <View style={{ flexDirection: 'row', paddingHorizontal: spacingX._10 }}>
-        {[...Array(3)].map((_, i) => (
-          <Skeleton
-            key={i}
-            height={spacingY._400}
-            width={SCREEN_WIDTH * 0.8}
-            radius={12}
-            style={{ marginRight: spacingX._10 }}
-          />
-        ))}
+        <Skeleton
+          height={spacingY._400}
+          width={SCREEN_WIDTH * 0.8}
+          radius={12}
+          style={{ marginRight: spacingX._10 }}
+        />
+        <Skeleton
+          height={spacingY._400}
+          width={SCREEN_WIDTH * 0.8}
+          radius={12}
+          style={{ marginRight: spacingX._10 }}
+        />
       </View>
     );
   }
 
-  if ((!data || data.length === 0)) {
+  if (!data || data.length === 0) {
     return (
       <View style={{ marginTop: spacingY._15 }}>
         <Typo
@@ -51,7 +54,7 @@ const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
         horizontal
         keyExtractor={(item) => item.id.toString()}
         showsHorizontalScrollIndicator={false}
-        estimatedItemSize={300} // or your approximate item width
+        estimatedItemSize={300}
         contentContainerStyle={{ paddingHorizontal: spacingX._10 }}
         renderItem={({ item, index }) => (
           <TopSliderItem item={item} index={index} onPress={onSelect} />
@@ -62,6 +65,7 @@ const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
 };
 
 const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
+  const { theme } = useTheme();
   const imageUrl =
     item._embedded?.['wp:featuredmedia']?.[0]?.source_url ??
     'https://via.placeholder.com/300';
@@ -76,8 +80,8 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
           height: spacingY._400,
           width: SCREEN_WIDTH * 0.8,
         }}
-        onPress={() => onPress?.(item.id)}
         activeOpacity={0.8}
+        onPress={() => onPress?.(item.id)}
       >
         <Image
           source={{ uri: imageUrl }}
@@ -91,9 +95,14 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
         <Typo numberOfLines={3} style={styles.title}>
           {item.title.rendered}
         </Typo>
+
+        {/* Read More Button */}
+        <Typo size={14} color={theme.colors.accent} fontWeight="500" style={{ alignSelf: 'flex-end' }}>
+          Read More
+        </Typo>
       </TouchableOpacity>
     </Animated.View>
   );
 };
 
-export default TopSlider
+export default TopSlider;
