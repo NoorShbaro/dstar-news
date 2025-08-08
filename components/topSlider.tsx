@@ -20,7 +20,7 @@ const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
         {[...Array(3)].map((_, i) => (
           <Skeleton
             key={i}
-            height={spacingY._500}
+            height={spacingY._350}
             width={'80%'}
             radius={12}
             style={{ marginRight: spacingX._10 }}
@@ -30,7 +30,7 @@ const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
     );
   }
 
-  if (!loading && (!data || data.length === 0)) {
+  if ((!data || data.length === 0)) {
     return (
       <View style={{ marginTop: spacingY._15 }}>
         <Typo

@@ -120,7 +120,7 @@ const Home = () => {
             selectedCategoryId={selectedCategoryId}
           />
 
-          <TopSlider data={posts} />
+          <TopSlider data={posts} loading={loadingPosts}/>
         </ScrollView>
       </View>
     </ScreenWrapper>
