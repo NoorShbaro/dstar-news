@@ -122,7 +122,7 @@ const Home = () => {
           />
 
           <TopSlider data={posts} loading={loadingPosts}/>
-          <News />
+          <News data={posts} loading={loadingPosts}/>
         </ScrollView>
       </View>
     </ScreenWrapper>
