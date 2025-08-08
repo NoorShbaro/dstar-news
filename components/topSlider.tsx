@@ -73,7 +73,7 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
     >
       <TouchableOpacity
         style={{
-          height: spacingY._500,
+          height: spacingY._400,
           width: SCREEN_WIDTH * 0.8,
         }}
         onPress={() => onPress?.(item.id)}
