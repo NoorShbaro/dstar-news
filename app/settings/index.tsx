@@ -125,8 +125,8 @@ const Profile = () => {
         {/** avatar */}
         <View style={styles.avatarContainer}>
           <Image
-            style={[styles.avatar, { backgroundColor: theme.colors.primaryLight, borderColor: theme.colors.primary }]}
-            source={''}
+            style={[styles.avatar, {   }]}
+            source={require('@/assets/images/abyad-02.png')}
             contentFit='cover'
             transition={100}
           />

@@ -21,8 +21,9 @@ export const styles = StyleSheet.create({
     // backgroundColor: 300
     height: verticalScale(135),
     width: verticalScale(135),
-    borderRadius: 200,
-    borderWidth: 1,
+    // borderRadius: 200,
+    resizeMode: 'contain'
+    // borderWidth: 1,
   },
   editIcon: {
     position: 'absolute',

@@ -14,6 +14,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: spacingY._10
   },
+  avatar: {
+    resizeMode: 'contain',
+    height: verticalScale(30),
+    width: verticalScale(200),
+  },
   searchIcon: {
     // backgroundColor: 700
     padding: spacingX._10,

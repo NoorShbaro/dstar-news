@@ -3,18 +3,17 @@ import CategorySlider from '@/components/categorySlider'
 import News from '@/components/news'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import TopSlider from '@/components/topSlider'
-import Typo from '@/components/Typo'
 import { useTheme } from '@/context/ThemeContext'
 import { CategoryType } from '@/types/types'
-import { verticalScale } from '@/utils/styling'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native'
 import { styles } from '../../styles/home.styles'
 
 const Home = () => {
-  const { theme } = useTheme();
+  const { theme, toggleTheme, mode } = useTheme();
   const router = useRouter();
 
   const [categories, setCategories] = useState<CategoryType[]>([]);
@@ -42,32 +41,32 @@ const Home = () => {
   };
 
   const fetchPosts = async (categoryId: number | null) => {
-  setLoadingPosts(true);
-  try {
-    const url = categoryId
-  ? `/wp-json/wp/v2/posts?categories=${categoryId}&_embed`
-  : `/wp-json/wp/v2/posts?_embed`;
-    const res = await apiClient.get(url);
-    setPosts(res.data); // ✅ Store posts
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-  } finally {
-    setLoadingPosts(false);
-  }
-};
+    setLoadingPosts(true);
+    try {
+      const url = categoryId
+        ? `/wp-json/wp/v2/posts?categories=${categoryId}&_embed`
+        : `/wp-json/wp/v2/posts?_embed`;
+      const res = await apiClient.get(url);
+      setPosts(res.data); // ✅ Store posts
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setLoadingPosts(false);
+    }
+  };
 
   const fetchBreakingNews = async () => {
-  setLoadingBreakingNews(true);
-  try {
-    const url = `/wp-json/wp/v2/posts?categories=163&_embed`
-    const res = await apiClient.get(url);
-    setBreakingNews(res.data);
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-  } finally {
-    setLoadingBreakingNews(false);
-  }
-};
+    setLoadingBreakingNews(true);
+    try {
+      const url = `/wp-json/wp/v2/posts?categories=163&_embed`
+      const res = await apiClient.get(url);
+      setBreakingNews(res.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setLoadingBreakingNews(false);
+    }
+  };
 
   const onRefresh = async () => {
     setIsRefreshing(true);
@@ -100,20 +99,31 @@ const Home = () => {
         {/* Header */}
         <View style={styles.header}>
           <View style={{ gap: 4 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Typo size={16} color={theme.colors.textPrimary}>Digital Star</Typo>
-              <Typo size={16} fontWeight="600">News</Typo>
-            </View>
+            <Image
+              style={[styles.avatar, {}]}
+              source={mode === 'dark' ? require('@/assets/images/abyad-01.png'): require( '@/assets/images/aswad-01.png')}
+              contentFit='contain'
+              transition={100}
+            />
           </View>
           <TouchableOpacity
             style={[styles.searchIcon, { backgroundColor: theme.colors.disabled }]}
-            onPress={() => router.push('/settings')}
+            onPress={toggleTheme}
+          // () => { router.push('/settings') }
           >
-            <MaterialIcons
-              name="settings"
-              size={verticalScale(24)}
-              color={theme.colors.white}
-            />
+            {
+              mode === 'dark' ? <MaterialIcons
+                name='sunny'
+                size={26}
+                weight="fill"
+                color={theme.colors.white}
+              /> : <MaterialIcons
+                name='bedtime'
+                size={26}
+                weight="fill"
+                color={theme.colors.white}
+              />
+            }
           </TouchableOpacity>
         </View>
 
@@ -138,8 +148,8 @@ const Home = () => {
             selectedCategoryId={selectedCategoryId}
           />
 
-          <TopSlider data={breakingNews} loading={loadingBreakingNews}/>
-          <News data={posts} loading={loadingPosts}/>
+          <TopSlider data={breakingNews} loading={loadingBreakingNews} />
+          <News data={posts} loading={loadingPosts} />
         </ScrollView>
       </View>
     </ScreenWrapper>

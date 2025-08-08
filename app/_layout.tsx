@@ -40,7 +40,7 @@ function RootLayoutInner() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home/index" />
-      <Stack.Screen name="settings/index" />
+      {/* <Stack.Screen name="settings/index" /> */}
     </Stack>
   );
 }
