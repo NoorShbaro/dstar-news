@@ -20,8 +20,8 @@ const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
         {[...Array(3)].map((_, i) => (
           <Skeleton
             key={i}
-            height={spacingY._350}
-            width={'80%'}
+            height={spacingY._400}
+            width={SCREEN_WIDTH * 0.8}
             radius={12}
             style={{ marginRight: spacingX._10 }}
           />

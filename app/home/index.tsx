@@ -1,5 +1,6 @@
 import apiClient from '@/api/apiClient'
 import CategorySlider from '@/components/categorySlider'
+import News from '@/components/news'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import TopSlider from '@/components/topSlider'
 import Typo from '@/components/Typo'
@@ -121,6 +122,7 @@ const Home = () => {
           />
 
           <TopSlider data={posts} loading={loadingPosts}/>
+          <News />
         </ScrollView>
       </View>
     </ScreenWrapper>
