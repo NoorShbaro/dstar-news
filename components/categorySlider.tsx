@@ -75,7 +75,7 @@ const CategoryItem = ({
 }: {
     item: CategoryType;
     index: number;
-    onPress?: (id: number) => void; // ✅ expects number
+    onPress?: (id: number) => void; 
     selected?: boolean;
 }) => {
     const { theme } = useTheme();
@@ -88,19 +88,19 @@ const CategoryItem = ({
             <TouchableOpacity
                 style={[
                     styles.categoryCard,
-                    {
-                        backgroundColor: selected
-                            ? theme.colors.primary
-                            : theme.colors.surface,
-                    },
+                    // {
+                    //     backgroundColor: selected
+                    //         ? theme.colors.primary
+                    //         : theme.colors.surface,
+                    // },
                 ]}
                 onPress={() => onPress?.(item.id)} // ✅ pass ID
                 
             >
                 <Typo
-                    size={14}
+                    size={16}
                     fontWeight="500"
-                    color={selected ? theme.colors.white : theme.colors.textPrimary}
+                    color={selected ? theme.colors.accent : theme.colors.textPrimary}
                 >
                     {item.name}
                 </Typo>
