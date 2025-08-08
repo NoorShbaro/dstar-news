@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import {
+    DimensionValue,
     StyleProp,
     TextInput,
     TextInputProps,
@@ -77,13 +78,13 @@ export type CategoryType = {
 };
 
 export type CategorySliderProps = {
-  title?: string;
-  data: CategoryType[];
-  loading?: boolean;
-  error?: string;
-  onSelect?: (categoryId: number) => void; 
-  selectedCategoryId?: number | null;      
-  onCategoryChanged?: (categoryId: number) => void; 
+    title?: string;
+    data: CategoryType[];
+    loading?: boolean;
+    error?: string;
+    onSelect?: (categoryId: number) => void;
+    selectedCategoryId?: number | null;
+    onCategoryChanged?: (categoryId: number) => void;
 };
 
 export type ReportItemProps = {
@@ -111,4 +112,13 @@ export type RootStackParamList = {
         };
     };
     LocationPicker: undefined;
+};
+
+export type SkeletonProps = {
+    width?: DimensionValue;
+    height?: DimensionValue;
+    //   radius?: number;
+    //   orientation?: 'horizontal' | 'vertical';
+    radius?: number;
+    style?: ViewStyle;
 };

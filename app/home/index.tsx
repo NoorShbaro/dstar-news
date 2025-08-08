@@ -17,7 +17,6 @@ const Home = () => {
 
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [loadingCategories, setLoadingCategories] = useState(true);

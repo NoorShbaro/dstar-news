@@ -23,6 +23,9 @@ export type ThemeColors = {
   inReview: string;
   resolved: string;
   rejected: string;
+  skeletonBase: string,
+  skeletonHighlight: string,
+
 };
 
 export type AppTheme = {
@@ -58,6 +61,10 @@ export const spacingY = {
   _40: verticalScale(40),
   _50: verticalScale(50),
   _60: verticalScale(60),
+  _70: verticalScale(70),
+  _100: verticalScale(100),
+  _150: verticalScale(150),
+  _200: verticalScale(200),
 }
 
 export const radius = {

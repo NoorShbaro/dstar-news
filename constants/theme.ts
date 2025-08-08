@@ -24,6 +24,8 @@ export const lightTheme: AppTheme = {
         inReview: '#37474F',
         resolved: '#00674F',
         rejected: '#FF4C4C',
+        skeletonBase: '#E5E5E5',       // Slightly darker than surface
+skeletonHighlight: '#F4F4F4',  // Matches gradient & lighter surface
     },
 };
 
@@ -51,5 +53,7 @@ export const darkTheme: AppTheme = {
         inReview: '#61A0FF',
         resolved: '#00B894',
         rejected: '#FF6B6B',
+        skeletonBase: '#2C2C2C',       // Matches border tone
+skeletonHighlight: '#3A3A3A',  // Slightly lighter shimmer
     },
 };

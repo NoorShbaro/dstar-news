@@ -1,14 +1,13 @@
 import { useTheme } from '@/context/ThemeContext';
-import { spacingY } from '@/types/theme';
+import { radius, spacingX, spacingY } from '@/types/theme';
 import { CategorySliderProps, CategoryType } from '@/types/types';
-import { verticalScale } from '@/utils/styling';
 import { FlashList } from '@shopify/flash-list';
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { styles } from '../styles/categories.styles';
-import Loading from './Loading';
 import Typo from './Typo';
+import Skeleton from './skeleton';
 
 const CategorySlider = ({
     title,
@@ -26,8 +25,10 @@ const CategorySlider = ({
             {title && <Typo size={20} fontWeight="500">{title}</Typo>}
 
             {loading && (
-                <View style={{ top: verticalScale(60) }}>
-                    <Loading />
+                <View style={{ flexDirection: 'row' }}>
+                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} />
+                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} style={{ marginLeft: spacingX._5 }} />
+                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} style={{ marginLeft: spacingX._5 }} />
                 </View>
             )}
 
@@ -75,11 +76,11 @@ const CategoryItem = ({
 }: {
     item: CategoryType;
     index: number;
-    onPress?: (id: number) => void; 
+    onPress?: (id: number) => void;
     selected?: boolean;
 }) => {
     const { theme } = useTheme();
-    
+
 
     return (
         <Animated.View
@@ -95,7 +96,7 @@ const CategoryItem = ({
                     // },
                 ]}
                 onPress={() => onPress?.(item.id)} // ✅ pass ID
-                
+
             >
                 <Typo
                     size={16}
