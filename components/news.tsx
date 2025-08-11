@@ -1,7 +1,7 @@
 import { useTheme } from '@/context/ThemeContext';
 import styles from '@/styles/news.styles';
 import { spacingX, spacingY } from '@/types/theme';
-import { TopSliderItemProps, TopSliderProps } from '@/types/types';
+import { PostType, TopSliderItemProps, TopSliderProps } from '@/types/types';
 import { verticalScale } from '@/utils/styling';
 import { FlashList } from '@shopify/flash-list';
 import React from 'react';
@@ -9,11 +9,18 @@ import { Dimensions, Image, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import Typo from './Typo';
 import Skeleton from './skeleton';
+import { router } from 'expo-router';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
-const News = ({ data, loading, error, onSelect }: TopSliderProps) => {
+const News = ({ data, loading, error }: TopSliderProps) => {
     const { theme } = useTheme();
+    const handleClick = (item: PostType) => {
+        router.push({
+          pathname: '/single/[id]',
+          params: { id: item.id },
+        });
+      };
 
     if (loading) {
         return (
@@ -60,7 +67,7 @@ const News = ({ data, loading, error, onSelect }: TopSliderProps) => {
                 estimatedItemSize={300} // or your approximate item width
                 contentContainerStyle={{ paddingHorizontal: spacingX._10 }}
                 renderItem={({ item, index }) => (
-                    <TopSliderItem item={item} index={index} onPress={onSelect} />
+                    <TopSliderItem item={item} index={index} onPress={handleClick} />
                 )}
             />
         </View>
@@ -85,7 +92,7 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
                     display: 'flex',
                     flexDirection: 'row'
                 }}
-                onPress={() => onPress?.(item.id)}
+                onPress={() => onPress?.(item)}
                 activeOpacity={0.8}
             >
                 <Image
@@ -105,16 +112,16 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
 
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={{
                     alignSelf: 'flex-end',
                 }}
-                onPress={() => onPress?.(item.id)}
+                onPress={() => onPress?.(item)}
             >
                 <Typo size={14} color={theme.colors.accent} fontWeight="500">
                     Read More
                 </Typo>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </Animated.View>
     );
 };

@@ -1,8 +1,9 @@
 import { useTheme } from '@/context/ThemeContext';
 import styles from '@/styles/topSlider.styles';
 import { spacingX, spacingY } from '@/types/theme';
-import { TopSliderItemProps, TopSliderProps } from '@/types/types';
+import { PostType, TopSliderItemProps, TopSliderProps } from '@/types/types';
 import { FlashList } from '@shopify/flash-list';
+import { router } from 'expo-router';
 import React from 'react';
 import { Dimensions, Image, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -11,8 +12,14 @@ import Skeleton from './skeleton';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
-const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
+const TopSlider = ({ data, loading, error }: TopSliderProps) => {
   const { theme } = useTheme();
+  const handleClick = (item: PostType) => {
+    router.push({
+      pathname: '/single/[id]',
+      params: { id: item.id },
+    });
+  };
 
   if (loading) {
     return (
@@ -57,7 +64,7 @@ const TopSlider = ({ data, loading, error, onSelect }: TopSliderProps) => {
         estimatedItemSize={300}
         contentContainerStyle={{ paddingHorizontal: spacingX._10 }}
         renderItem={({ item, index }) => (
-          <TopSliderItem item={item} index={index} onPress={onSelect} />
+          <TopSliderItem item={item} index={index} onPress={handleClick} />
         )}
       />
     </View>
@@ -81,7 +88,7 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
           width: SCREEN_WIDTH * 0.8,
         }}
         activeOpacity={0.8}
-        onPress={() => onPress?.(item.id)}
+        onPress={() => onPress?.(item)}
       >
         <Image
           source={{ uri: imageUrl }}
@@ -97,9 +104,9 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
         </Typo>
 
         {/* Read More Button */}
-        <Typo size={14} color={theme.colors.accent} fontWeight="500" style={{ alignSelf: 'flex-end' }}>
+        {/* <Typo size={14} color={theme.colors.accent} fontWeight="500" style={{ alignSelf: 'flex-end' }}>
           Read More
-        </Typo>
+        </Typo> */}
       </TouchableOpacity>
     </Animated.View>
   );

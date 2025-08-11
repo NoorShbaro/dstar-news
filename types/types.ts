@@ -62,14 +62,6 @@ export interface CustomButtonProps extends TouchableOpacityProps {
     children: React.ReactNode;
 };
 
-export type ReportListType = {
-    data: CategoryType[];
-    title?: string;
-    loading: boolean;
-    emptyListMessage?: string;
-    error_network?: string
-};
-
 export type CategoryType = {
     id: number;
     name: string;
@@ -88,51 +80,59 @@ export type CategorySliderProps = {
     onCategoryChanged?: (categoryId: number) => void;
 };
 
-export type ReportItemProps = {
-    item: CategoryType;
-    index: number;
-    handleClick: (item: CategoryType) => void;
-};
-
 export type ModalWrapperProps = {
     style?: ViewStyle;
     children: React.ReactNode;
     bg?: string;
 };
 
-export type Coordinates = {
-    latitude: number;
-    longitude: number;
-};
-
-export type RootStackParamList = {
-    AddReportScreen: {
-        selectedLocation?: {
-            latitude: number;
-            longitude: number;
-        };
-    };
-    LocationPicker: undefined;
-};
-
 export type SkeletonProps = {
     width?: DimensionValue;
     height?: DimensionValue;
-    //   radius?: number;
     //   orientation?: 'horizontal' | 'vertical';
     radius?: number;
     style?: ViewStyle;
 };
 
 export type TopSliderItemProps = {
-  item: any;
+  item: PostType;
   index: number;
-  onPress?: (id: number) => void;
+  onPress?: (item: PostType) => void;
 };
 
 export type TopSliderProps = {
-  data: any[];
+  data: PostType[];
   loading?: boolean;
   error?: string;
-  onSelect?: (id: number) => void;
+  onSelect?: (item: PostType) => void;
+};
+
+export type PostType = {
+  id: number;
+  date: string;
+  modified: string;
+  slug: string;
+  status: string;
+  type: string;
+  link: string;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+    protected: boolean;
+  };
+  excerpt: {
+    rendered: string;
+    protected: boolean;
+  };
+  author: number;
+  featured_media: number;
+  categories: number[];
+  tags: number[];
+  _embedded?: {
+    'wp:featuredmedia'?: {
+      source_url?: string;
+    }[];
+  };
 };

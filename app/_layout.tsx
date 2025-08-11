@@ -41,6 +41,7 @@ function RootLayoutInner() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home/index" />
       {/* <Stack.Screen name="settings/index" /> */}
+      <Stack.Screen name='single/[id]' options={{ presentation: 'modal' }}/>
     </Stack>
   );
 }
