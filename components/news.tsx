@@ -2,14 +2,15 @@ import { useTheme } from '@/context/ThemeContext';
 import styles from '@/styles/news.styles';
 import { spacingX, spacingY } from '@/types/theme';
 import { PostType, TopSliderItemProps, TopSliderProps } from '@/types/types';
+import { decodeHtmlEntities } from '@/utils/html';
 import { verticalScale } from '@/utils/styling';
 import { FlashList } from '@shopify/flash-list';
+import { router } from 'expo-router';
 import React from 'react';
 import { Dimensions, Image, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import Typo from './Typo';
 import Skeleton from './skeleton';
-import { router } from 'expo-router';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
@@ -107,7 +108,7 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
                 />
                 <View style={{ marginRight: verticalScale(130), marginLeft: spacingX._10 }}>
                     <Typo numberOfLines={4} style={styles.title}>
-                        {item.title.rendered}
+                        {decodeHtmlEntities(item.title.rendered)}
                     </Typo>
 
                 </View>

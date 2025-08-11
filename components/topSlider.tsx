@@ -2,6 +2,7 @@ import { useTheme } from '@/context/ThemeContext';
 import styles from '@/styles/topSlider.styles';
 import { spacingX, spacingY } from '@/types/theme';
 import { PostType, TopSliderItemProps, TopSliderProps } from '@/types/types';
+import { decodeHtmlEntities } from '@/utils/html';
 import { FlashList } from '@shopify/flash-list';
 import { router } from 'expo-router';
 import React from 'react';
@@ -100,7 +101,7 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
           resizeMode="cover"
         />
         <Typo numberOfLines={3} style={styles.title}>
-          {item.title.rendered}
+          {decodeHtmlEntities(item.title.rendered)}
         </Typo>
 
         {/* Read More Button */}

@@ -31,7 +31,7 @@ const CustomSplashScreen: React.FC<CustomSplashScreenProps> = ({ onFinish }) => 
     <Animated.View style={[styles.container, { backgroundColor: theme.colors.white, opacity }]}>
       <View style={styles.imageContainer}>
         <Image
-          // source={require('@/assets/images/sss.png')}
+          source={require('@/assets/images/aswad-01.png')}
           style={styles.image}
           resizeMode="contain"
         />

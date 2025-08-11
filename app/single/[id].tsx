@@ -8,6 +8,7 @@ import { useTheme } from '@/context/ThemeContext';
 import styles from '@/styles/single.styles';
 import { spacingX, spacingY } from '@/types/theme';
 import { PostType } from '@/types/types';
+import { decodeHtmlEntities } from '@/utils/html';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
@@ -155,7 +156,7 @@ const Single = () => {
                                 style={styles.img}
                                 resizeMode="cover"
                             />
-                            <Typo style={styles.title}>{post?.title.rendered}</Typo>
+                            <Typo style={styles.title}>{decodeHtmlEntities(post?.title.rendered ?? '')}</Typo>
 
                             <RenderHTML
                                 contentWidth={SCREEN_WIDTH}
