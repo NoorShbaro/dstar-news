@@ -114,18 +114,27 @@ const Home = () => {
             {
               mode === 'dark' ? <MaterialIcons
                 name='sunny'
-                size={26}
+                size={20}
                 weight="fill"
                 color={theme.colors.white}
               /> : <MaterialIcons
                 name='bedtime'
-                size={26}
+                size={20}
                 weight="fill"
                 color={theme.colors.white}
               />
             }
           </TouchableOpacity>
         </View>
+
+        <CategorySlider
+            // title="Categories"
+            data={categories}
+            loading={loadingCategories}
+            error={errorMessage}
+            onSelect={handleCategoryChange}
+            selectedCategoryId={selectedCategoryId}
+          />
 
         <ScrollView
           contentContainerStyle={styles.scrollViewStyle}
@@ -139,14 +148,6 @@ const Home = () => {
             />
           }
         >
-          <CategorySlider
-            // title="Categories"
-            data={categories}
-            loading={loadingCategories}
-            error={errorMessage}
-            onSelect={handleCategoryChange}
-            selectedCategoryId={selectedCategoryId}
-          />
 
           <TopSlider data={breakingNews} loading={loadingBreakingNews} />
           <News data={posts} loading={loadingPosts} />

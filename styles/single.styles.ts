@@ -98,7 +98,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: SCREEN_WIDTH * 0.6,
     marginVertical: spacingY._5,
-    borderRadius: 10,
+    borderRadius: 12,
   }
 })
 

@@ -2,10 +2,37 @@ import CustomSplashScreen from "@/components/SplashScreen";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { router, SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from "react";
+import { OneSignal, LogLevel } from 'react-native-onesignal';
+
+const ONESIGNAL_APP_ID = '509fc6a8-a696-442a-9f81-a0fc36dde44d';
 
 function RootLayoutInner() {
   const [isSplashVisible, setSplashVisible] = useState(true);
   const [isAppReady, setAppReady] = useState(false);
+
+  useEffect(() => {
+    // Enable verbose logging for debugging (remove in production)
+    OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+    // Initialize with your OneSignal App ID
+    OneSignal.initialize(ONESIGNAL_APP_ID);
+    // Use this method to prompt for push notifications.
+    // We recommend removing this method after testing and instead use In-App Messages to prompt for notification permission.
+    OneSignal.Notifications.requestPermission(false);
+    OneSignal.Notifications.addEventListener('opened', (event: any) => {
+      // Get custom data from notification payload
+      const postId = event.notification.additionalData?.id;
+      console.log(event.notification);
+      if (postId) {
+        router.push(`/single/${postId}`);
+      } else {
+        router.push('/home');
+      }
+    });
+    // Clean up event listener
+    return () => {
+      OneSignal.Notifications.removeEventListener('opened');
+    };
+  }, []);
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
@@ -41,7 +68,7 @@ function RootLayoutInner() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home/index" />
       {/* <Stack.Screen name="settings/index" /> */}
-      <Stack.Screen name='single/[id]' options={{ presentation: 'modal' }}/>
+      <Stack.Screen name='single/[id]' options={{ presentation: 'modal' }} />
     </Stack>
   );
 }

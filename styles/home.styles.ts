@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: spacingX._20,
-    marginTop: verticalScale(8),
+    // marginTop: verticalScale(8),
   },
   header: {
     flexDirection: 'row',
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   avatar: {
     resizeMode: 'contain',
     height: verticalScale(30),
-    width: verticalScale(200),
+    width: verticalScale(220),
   },
   searchIcon: {
     // backgroundColor: 700

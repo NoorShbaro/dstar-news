@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "515358768169",
+    "project_id": "dstar-6228f",
+    "storage_bucket": "dstar-6228f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515358768169:android:bdf0986bce92b9e893f038",
+        "android_client_info": {
+          "package_name": "com.dstarnews.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpV_Gk6I6C1bSW_Pvxzgb1bxd6uU_1YNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
