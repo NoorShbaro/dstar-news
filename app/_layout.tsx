@@ -2,7 +2,7 @@ import CustomSplashScreen from "@/components/SplashScreen";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { router, SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from "react";
-import { OneSignal, LogLevel } from 'react-native-onesignal';
+import { LogLevel, OneSignal } from 'react-native-onesignal';
 
 const ONESIGNAL_APP_ID = '509fc6a8-a696-442a-9f81-a0fc36dde44d';
 
@@ -17,11 +17,14 @@ function RootLayoutInner() {
     OneSignal.initialize(ONESIGNAL_APP_ID);
     // Use this method to prompt for push notifications.
     // We recommend removing this method after testing and instead use In-App Messages to prompt for notification permission.
-    OneSignal.Notifications.requestPermission(false);
+
+    // OneSignal.Notifications.requestPermission(false);
     OneSignal.Notifications.addEventListener('opened', (event: any) => {
-      // Get custom data from notification payload
       const postId = event.notification.additionalData?.id;
-      console.log(event.notification);
+
+      // Prevent auto-launch by ignoring launchURL
+      event.notification.launchURL = null;
+
       if (postId) {
         router.push(`/single/${postId}`);
       } else {
@@ -48,11 +51,9 @@ function RootLayoutInner() {
 
   useEffect(() => {
     if (!isSplashVisible && isAppReady) {
-      const timeout = setTimeout(() => {
-        SplashScreen.hideAsync();
+      SplashScreen.hideAsync().then(() => {
         router.replace("/home");
-      }, 500);
-      return () => clearTimeout(timeout);
+      });
     }
   }, [isSplashVisible, isAppReady]);
 

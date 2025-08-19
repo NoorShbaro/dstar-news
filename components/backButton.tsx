@@ -20,7 +20,7 @@ const BackButton = ({
         <TouchableOpacity onPress={() => router.back()} style={[styles.button, style, { backgroundColor: theme.colors.disabled }]}>
             {
                 <MaterialIcons
-                    name='chevron-left'
+                    name='chevron-left' 
                     size={verticalScale(iconSize)}
                     color={theme.colors.surface}
                     weight='bold'

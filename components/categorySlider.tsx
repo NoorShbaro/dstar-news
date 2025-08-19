@@ -25,7 +25,7 @@ const CategorySlider = ({
             {title && <Typo size={20} fontWeight="500">{title}</Typo>}
 
             {loading && (
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', marginBottom: spacingX._10 }}>
                     <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} />
                     <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} style={{ marginLeft: spacingX._5 }} />
                     <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} style={{ marginLeft: spacingX._5 }} />

@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Typo from './Typo'
 import { HeaderProps } from '@/types/types'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import Typo from './Typo'
 
 const Header = ({ title = '', leftIcon, style }: HeaderProps) => {
   return (
@@ -29,7 +29,7 @@ export default Header
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    // width: '100%',
     alignItems: 'center',
     flexDirection: 'row'
   },

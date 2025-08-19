@@ -4,7 +4,7 @@
     "slug": "dstar-news",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/abyad-03.png",
     "scheme": "dstarnews",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -25,7 +25,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/abyad-03.png",
         "backgroundColor": "#ffffff",
         "package": "com.dstarnews.app"
       },

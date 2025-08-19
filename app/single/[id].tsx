@@ -6,9 +6,11 @@ import ModalWrapper from '@/components/modalWrapper';
 import Skeleton from '@/components/skeleton';
 import { useTheme } from '@/context/ThemeContext';
 import styles from '@/styles/single.styles';
-import { spacingX, spacingY } from '@/types/theme';
+import { radius, spacingX, spacingY } from '@/types/theme';
 import { PostType } from '@/types/types';
 import { decodeHtmlEntities } from '@/utils/html';
+import { verticalScale } from '@/utils/styling';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
@@ -16,6 +18,8 @@ import {
     Image,
     Linking,
     ScrollView,
+    Share,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import RenderHTML, {
@@ -127,27 +131,48 @@ const Single = () => {
         );
     };
 
+    const shareNews = () => {
+        Share.share({
+            message: `Check out this post: \n${post?.title?.rendered || 'DStar News Post'}\n\n${post?.link}`,
+            title: post?.title?.rendered || 'DStar News Post',
+        })
+    }
+
     return (
         <ModalWrapper>
             <View style={styles.container}>
-                <Header
-                    title=""
-                    leftIcon={<BackButton />}
-                    style={{ marginBottom: spacingY._10 }}
-                />
-
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Header
+                        title=""
+                        leftIcon={<BackButton />}
+                        style={{ marginBottom: spacingY._10, flex: 1 }}
+                    />
+                    <TouchableOpacity onPress={shareNews} style={{
+                        backgroundColor: theme.colors.disabled, alignSelf: 'flex-start',
+                        borderRadius: radius._12,
+                        borderCurve: 'continuous',
+                        padding: 5
+                    }}>
+                        <MaterialIcons
+                            name='share'
+                            size={verticalScale(26)}
+                            color={theme.colors.surface}
+                            weight='bold'
+                        />
+                    </TouchableOpacity>
+                </View>
                 <ScrollView contentContainerStyle={styles.scrollContent}>
                     {loading ? (
                         <>
                             <Skeleton height={SCREEN_WIDTH * 0.77} radius={12} />
                             <Skeleton height={spacingX._40} radius={12} />
-                            <Skeleton height={spacingX._40} radius={12} width={spacingY._150}/>
+                            <Skeleton height={spacingX._40} radius={12} width={spacingY._150} />
                             <Skeleton height={spacingX._25} radius={12} />
                             <Skeleton height={spacingX._25} radius={12} />
                             <Skeleton height={spacingX._25} radius={12} />
                             <Skeleton height={spacingX._25} radius={12} />
                             <Skeleton height={spacingX._25} radius={12} />
-                            <Skeleton height={spacingX._25} radius={12} width={spacingY._150}/>
+                            <Skeleton height={spacingX._25} radius={12} width={spacingY._150} />
                         </>
                     ) : (
                         <>
