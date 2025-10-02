@@ -1,16 +1,19 @@
 import apiClient from '@/api/apiClient'
 import CategorySlider from '@/components/categorySlider'
 import Loading from '@/components/Loading'
-import News from '@/components/news'
+import { NewsItem } from '@/components/news'
 import ScreenWrapper from '@/components/ScreenWrapper'
+import Skeleton from '@/components/skeleton'
 import TopSlider from '@/components/topSlider'
+import Typo from '@/components/Typo'
 import { useTheme } from '@/context/ThemeContext'
+import { spacingX, spacingY } from '@/types/theme'
 import { CategoryType, PostType } from '@/types/types'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { NativeScrollEvent, NativeSyntheticEvent, RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native'
+import { FlatList, RefreshControl, TouchableOpacity, View } from 'react-native'
 import { styles } from '../../styles/home.styles'
 
 const Home = () => {
@@ -29,6 +32,16 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [paginationLoading, setPaginationLoading] = useState(false);
+  const [showEmpty, setShowEmpty] = useState(false);
+
+  useEffect(() => {
+    if (!loadingPosts && posts.length === 0) {
+      const timer = setTimeout(() => setShowEmpty(true), 100);
+      return () => clearTimeout(timer);
+    } else {
+      setShowEmpty(false);
+    }
+  }, [loadingPosts, posts]);
 
   const fetchCategories = async () => {
     try {
@@ -73,15 +86,6 @@ const Home = () => {
       if (!append) setPosts([]);
     } finally {
       append ? setPaginationLoading(false) : setLoadingPosts(false);
-    }
-  };
-
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-    const isBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 100;
-
-    if (isBottom && hasMore && !paginationLoading) {
-      setPage(prev => prev + 1);
     }
   };
 
@@ -132,74 +136,123 @@ const Home = () => {
     fetchPosts(selectedCategoryId, page, page > 1);
   }, [selectedCategoryId, page]);
 
+  const handleClick = (item: PostType) => {
+    router.push({
+      pathname: '/single/[id]',
+      params: { id: item.id },
+    });
+  };
+
   return (
     <ScreenWrapper>
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={{ gap: 4 }}>
-            <Image
-              style={[styles.avatar, {}]}
-              source={mode === 'dark' ? require('@/assets/images/abyad-01.png') : require('@/assets/images/aswad-01.png')}
-              contentFit='contain'
-              transition={100}
-            />
-          </View>
-          <TouchableOpacity
-            style={[styles.searchIcon, { backgroundColor: theme.colors.disabled }]}
-            onPress={toggleTheme}
-          // () => { router.push('/settings') }
-          >
-            {
-              mode === 'dark' ? <MaterialIcons
-                name='sunny'
-                size={20}
-                weight="fill"
-                color={theme.colors.white}
-              /> : <MaterialIcons
-                name='bedtime'
-                size={20}
-                weight="fill"
-                color={theme.colors.white}
-              />
+      <View style={styles.header}>
+        <View style={{ gap: 4 }}>
+          <Image
+            style={styles.avatar}
+            source={
+              mode === 'dark'
+                ? require('@/assets/images/abyad-01.png')
+                : require('@/assets/images/aswad-01.png')
             }
-          </TouchableOpacity>
+            contentFit="contain"
+            transition={100}
+          />
         </View>
-
-        <CategorySlider
-          // title="Categories"
-          data={categories}
-          loading={loadingCategories}
-          error={errorMessage}
-          onSelect={handleCategoryChange}
-          selectedCategoryId={selectedCategoryId}
-        />
-
-        <ScrollView
-          contentContainerStyle={styles.scrollViewStyle}
-          showsVerticalScrollIndicator={false}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={onRefresh}
-              colors={[theme.colors.primaryLight]}
-              tintColor={theme.colors.white}
-            />
-          }
+        <TouchableOpacity
+          style={[styles.searchIcon, { backgroundColor: theme.colors.disabled }]}
+          onPress={toggleTheme}
         >
+          {mode === 'dark' ? (
+            <MaterialIcons
+              name="sunny"
+              size={20}
+              weight="fill"
+              color={theme.colors.white}
+            />
+          ) : (
+            <MaterialIcons
+              name="bedtime"
+              size={20}
+              weight="fill"
+              color={theme.colors.white}
+            />
+          )}
+        </TouchableOpacity>
+      </View>
+      <CategorySlider
+        data={categories}
+        loading={loadingCategories}
+        error={errorMessage}
+        onSelect={handleCategoryChange}
+        selectedCategoryId={selectedCategoryId}
+      />
+      <FlatList
+        data={posts}
+        keyExtractor={(item) => item.id.toString()}
+        ListEmptyComponent={
+          !showEmpty ? (
+            <View style={{ marginTop: spacingY._15, marginHorizontal: spacingX._10, }}>
+              <Skeleton height={130} radius={12} style={{ marginBottom: spacingY._5 }} />
+              <Skeleton height={130} radius={12} style={{ marginBottom: spacingY._5 }} />
+              <Skeleton height={130} radius={12} style={{ marginBottom: spacingY._5 }} />
+            </View>
+          ) : (
+            <View style={{ marginTop: spacingY._15 }}>
+              <Typo size={15} color={theme.colors.textSecondary} style={{ textAlign: 'center' }}>
+                {errorMessage || 'No items found'}
+              </Typo>
+            </View>
+          )
+        }
+        renderItem={({ item, index }) => (
+          <NewsItem
+            item={item}
+            index={index}
+            onPress={handleClick}
+            loading={loadingPosts}
+          />
+        )}
+        ListHeaderComponent={
+          <>
+            <View style={styles.container}>
+              {/* <CategorySlider
+                data={categories}
+                loading={loadingCategories}
+                error={errorMessage}
+                onSelect={handleCategoryChange}
+                selectedCategoryId={selectedCategoryId}
+              /> */}
+              <TopSlider data={breakingNews} loading={loadingBreakingNews} />
+            </View>
+          </>
 
-          <TopSlider data={breakingNews} loading={loadingBreakingNews} />
-          <News data={posts} loading={loadingPosts} />
-          {paginationLoading && hasMore && (
-            <View>
+        }
+        ListFooterComponent={
+          paginationLoading && hasMore ? (
+            <View style={{ paddingVertical: 20 }}>
               <Loading />
             </View>
-          )}
-        </ScrollView>
-      </View>
+          ) : null
+        }
+        onEndReached={() => {
+          if (hasMore && !paginationLoading) {
+            setPage(prev => prev + 1);
+          }
+        }}
+        onEndReachedThreshold={0.5}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            colors={[theme.colors.primaryLight]}
+            tintColor={theme.colors.white}
+          />
+        }
+        contentContainerStyle={styles.scrollViewStyle}
+        showsVerticalScrollIndicator={false}
+      />
     </ScreenWrapper>
+
   );
 };
 

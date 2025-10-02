@@ -97,6 +97,7 @@ export type SkeletonProps = {
 export type TopSliderItemProps = {
   item: PostType;
   index: number;
+  loading?: boolean;
   onPress?: (item: PostType) => void;
 };
 

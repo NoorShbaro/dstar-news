@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "Digital Star News",
+    "owner": "noorshbaro",
+    "name": "DStar News",
     "slug": "dstar-news",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/abyad-03.png",
+    "icon": "./assets/images/logo-01.png",
     "scheme": "dstarnews",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,12 +13,15 @@
       "bundleIdentifier": "com.dstarnews.app",
       "infoPlist": {
         "UIBackgroundModes": [
+          "remote-notification",
           "remote-notification"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       },
       "entitlements": {
         "aps-environment": "development",
         "com.apple.security.application-groups": [
+          "group.com.dstarnews.app.onesignal",
           "group.com.dstarnews.app.onesignal"
         ]
       },
@@ -25,9 +29,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/abyad-03.png",
-        "backgroundColor": "#ffffff",
-        "package": "com.dstarnews.app"
+        "foregroundImage": "./assets/images/logo-01.png",
+        "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "googleServicesFile": "./google-services.json",
@@ -42,11 +45,16 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
+      [
+        "expo-router",
+        {
+          "origin": "dstarnews://"
+        }
+      ],
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/logo-01.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

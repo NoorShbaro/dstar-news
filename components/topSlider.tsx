@@ -3,10 +3,10 @@ import styles from '@/styles/topSlider.styles';
 import { spacingX, spacingY } from '@/types/theme';
 import { PostType, TopSliderItemProps, TopSliderProps } from '@/types/types';
 import { decodeHtmlEntities } from '@/utils/html';
-import { FlashList } from '@shopify/flash-list';
+import { verticalScale } from '@/utils/styling';
 import { router } from 'expo-router';
 import React from 'react';
-import { Dimensions, Image, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import Typo from './Typo';
 import Skeleton from './skeleton';
@@ -15,6 +15,7 @@ const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 const TopSlider = ({ data, loading, error }: TopSliderProps) => {
   const { theme } = useTheme();
+
   const handleClick = (item: PostType) => {
     router.push({
       pathname: '/single/[id]',
@@ -24,18 +25,18 @@ const TopSlider = ({ data, loading, error }: TopSliderProps) => {
 
   if (loading) {
     return (
-      <View style={{ flexDirection: 'row', paddingHorizontal: spacingX._10 }}>
+      <View style={{ flexDirection: 'row', marginBottom: spacingX._20}}>
         <Skeleton
-          height={spacingY._400}
-          width={SCREEN_WIDTH * 0.8}
+          height={verticalScale(350)}
+          width={SCREEN_WIDTH * 0.95}
           radius={12}
           style={{ marginRight: spacingX._10 }}
         />
         <Skeleton
-          height={spacingY._400}
-          width={SCREEN_WIDTH * 0.8}
+          height={verticalScale(350)}
+          width={SCREEN_WIDTH * 0.95}
           radius={12}
-          style={{ marginRight: spacingX._10 }}
+        // style={{ marginRight: spacingX._10 }}
         />
       </View>
     );
@@ -57,18 +58,22 @@ const TopSlider = ({ data, loading, error }: TopSliderProps) => {
 
   return (
     <View>
-      <FlashList
-        data={data}
+      <ScrollView
         horizontal
-        keyExtractor={(item) => item.id.toString()}
         showsHorizontalScrollIndicator={false}
-        estimatedItemSize={300}
-        contentContainerStyle={{ paddingHorizontal: spacingX._10 }}
-        renderItem={({ item, index }) => (
-          <TopSliderItem item={item} index={index} onPress={handleClick} />
-        )}
-      />
+      // contentContainerStyle={{ paddingRight: spacingX._10 }}
+      >
+        {data.map((item, index) => (
+          <TopSliderItem
+            key={item.id}
+            item={item}
+            index={index}
+            onPress={handleClick}
+          />
+        ))}
+      </ScrollView>
     </View>
+
   );
 };
 
@@ -80,13 +85,14 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
 
   return (
     <Animated.View
-      entering={FadeInDown.delay(index * 70).springify().damping(14)}
-      style={{ marginRight: spacingX._10 }}
+      entering={FadeInDown.delay(index * 70).springify().damping(30).stiffness(200)}
+      style={{ marginRight: spacingX._10, marginBottom: spacingX._20 }}
     >
       <TouchableOpacity
         style={{
-          height: spacingY._400,
-          width: SCREEN_WIDTH * 0.8,
+          width: SCREEN_WIDTH * 0.9,
+          borderRadius: 12,
+          overflow: "hidden", 
         }}
         activeOpacity={0.8}
         onPress={() => onPress?.(item)}
@@ -94,21 +100,34 @@ const TopSliderItem = ({ item, index, onPress }: TopSliderItemProps) => {
         <Image
           source={{ uri: imageUrl }}
           style={{
-            height: SCREEN_WIDTH * 0.77,
-            borderRadius: 12,
-            marginBottom: spacingY._5,
+            height: SCREEN_WIDTH * 0.9,
+            width: "100%",
           }}
           resizeMode="cover"
         />
-        <Typo numberOfLines={3} style={styles.title}>
-          {decodeHtmlEntities(item.title.rendered)}
-        </Typo>
 
-        {/* Read More Button */}
-        {/* <Typo size={14} color={theme.colors.accent} fontWeight="500" style={{ alignSelf: 'flex-end' }}>
-          Read More
-        </Typo> */}
+        {/* Title Overlay */}
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            padding: spacingY._10,
+            alignContent: 'center',
+            height: verticalScale(80)
+          }}
+        >
+          <Typo
+            numberOfLines={2}
+            style={styles.title} color={theme.colors.white}
+          >
+            {decodeHtmlEntities(item.title.rendered)}
+          </Typo>
+        </View>
       </TouchableOpacity>
+
     </Animated.View>
   );
 };

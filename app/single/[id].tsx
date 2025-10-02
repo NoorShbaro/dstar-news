@@ -133,7 +133,7 @@ const Single = () => {
 
     const shareNews = () => {
         Share.share({
-            message: `Check out this post: \n${post?.title?.rendered || 'DStar News Post'}\n\n${post?.link}`,
+            message: `Check out on Digital Star News: \n${post?.title?.rendered || 'Digital Star News Post'}\n\n${post?.link}`,
             title: post?.title?.rendered || 'DStar News Post',
         })
     }
@@ -210,6 +210,7 @@ const Single = () => {
                                     a: {
                                         color: theme.colors.accent,
                                         textDecorationLine: 'underline',
+                                        fontWeight: 'bold'
                                     },
                                     ul: { paddingLeft: 20, marginVertical: 8 },
                                     li: { color: theme.colors.textSecondary, fontSize: 16, lineHeight: 24 },

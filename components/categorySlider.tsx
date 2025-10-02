@@ -1,9 +1,8 @@
 import { useTheme } from '@/context/ThemeContext';
 import { radius, spacingX, spacingY } from '@/types/theme';
 import { CategorySliderProps, CategoryType } from '@/types/types';
-import { FlashList } from '@shopify/flash-list';
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { styles } from '../styles/categories.styles';
 import Typo from './Typo';
@@ -25,15 +24,15 @@ const CategorySlider = ({
             {title && <Typo size={20} fontWeight="500">{title}</Typo>}
 
             {loading && (
-                <View style={{ flexDirection: 'row', marginBottom: spacingX._10 }}>
-                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} />
-                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} style={{ marginLeft: spacingX._5 }} />
-                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._20} style={{ marginLeft: spacingX._5 }} />
+                <View style={{ flexDirection: 'row', marginBottom: spacingX._10, marginHorizontal: spacingX._10 }}>
+                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._10} />
+                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._10} style={{ marginLeft: spacingX._5 }} />
+                    <Skeleton height={spacingX._30} width={spacingY._100} radius={radius._10} style={{ marginLeft: spacingX._5 }} />
                 </View>
             )}
 
             {!loading && data.length > 0 && (
-                <FlashList
+                <FlatList
                     horizontal
                     data={data}
                     extraData={selectedCategoryId}
@@ -46,9 +45,11 @@ const CategorySlider = ({
                             selected={item.id === selectedCategoryId}
                         />
                     )}
-                    estimatedItemSize={100}
+                    // estimatedItemSize={100}
                     contentContainerStyle={styles.slider}
                     showsHorizontalScrollIndicator={false}
+                    nestedScrollEnabled={true}
+                    keyboardShouldPersistTaps="handled"
                 />
             )}
 
@@ -84,24 +85,24 @@ const CategoryItem = ({
 
     return (
         <Animated.View
-            entering={FadeInDown.delay(index * 70).springify().damping(14)}
+            entering={FadeInDown.delay(index * 70).springify().damping(30).stiffness(200)}
         >
             <TouchableOpacity
                 style={[
                     styles.categoryCard,
-                    // {
-                    //     backgroundColor: selected
-                    //         ? theme.colors.primary
-                    //         : theme.colors.surface,
-                    // },
+                    {
+                        backgroundColor: selected
+                            ? theme.colors.accent
+                            : theme.colors.surface,
+                    },
                 ]}
-                onPress={() => onPress?.(item.id)} // ✅ pass ID
+                onPress={() => onPress?.(item.id)}
 
             >
                 <Typo
                     size={16}
                     fontWeight="500"
-                    color={selected ? theme.colors.accent : theme.colors.textPrimary}
+                    color={selected ? theme.colors.white : theme.colors.textPrimary}
                 >
                     {item.name}
                 </Typo>

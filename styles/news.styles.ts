@@ -15,9 +15,10 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    marginTop: spacingX._10,
+    // marginTop: spacingX._25,
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignSelf:'center'
   },
   list: {
     paddingHorizontal: spacingX._12,

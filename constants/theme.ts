@@ -25,7 +25,7 @@ export const lightTheme: AppTheme = {
         resolved: '#00674F',
         rejected: '#FF4C4C',
         skeletonBase: '#E5E5E5',       // Slightly darker than surface
-skeletonHighlight: '#F4F4F4',  // Matches gradient & lighter surface
+        skeletonHighlight: '#F4F4F4',  // Matches gradient & lighter surface
     },
 };
 
@@ -36,7 +36,7 @@ export const darkTheme: AppTheme = {
         primaryLight: '#CCCCCC',         // Less emphasis text
         accent: '#3399FF',               // Blue for links, buttons
         background: '#121212',           // Main background
-        surface: '#1C1C1C',              // Cards, modals
+        surface: '#555555',              // Cards, modals
         textPrimary: '#FFFFFF',          // Headlines
         textSecondary: '#AAAAAA',        // Subtext
         border: '#2C2C2C',               // Dividers, card edges
@@ -54,6 +54,6 @@ export const darkTheme: AppTheme = {
         resolved: '#00B894',
         rejected: '#FF6B6B',
         skeletonBase: '#2C2C2C',       // Matches border tone
-skeletonHighlight: '#3A3A3A',  // Slightly lighter shimmer
+        skeletonHighlight: '#3A3A3A',  // Slightly lighter shimmer
     },
 };

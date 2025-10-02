@@ -6,13 +6,16 @@ export const styles = StyleSheet.create({
     gap: spacingY._17,
   },
   slider: {
-    paddingHorizontal: spacingX._5,
+    // paddingHorizontal: spacingX._5,
     // paddingVertical: spacingY._5,
   },
   categoryCard: {
-    paddingVertical: spacingX._10,
+    paddingVertical: spacingX._7,
     paddingHorizontal: spacingX._10,
-    borderRadius: radius._17,
+    borderRadius: radius._10,
+    marginBottom: spacingY._10,
+    // marginRight: spacingX._10,
+    marginHorizontal: spacingX._10
     // marginRight: spacingX._5,
     // borderWidth: 1,
   },

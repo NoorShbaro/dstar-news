@@ -5,10 +5,11 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: spacingX._20,
+    paddingHorizontal: spacingX._10,
     // marginTop: verticalScale(8),
   },
   header: {
+    paddingHorizontal: spacingX._20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -33,15 +34,25 @@ export const styles = StyleSheet.create({
     right: verticalScale(30),
   },
   scrollViewStyle: {
-    marginTop: spacingY._10,
-    paddingBottom: verticalScale(100),
-    gap: spacingY._25
+    // marginTop: spacingY._10,
+    // paddingBottom: verticalScale(100),
+    // gap: spacingY._20,
+    // marginHorizontal: spacingX._10
   },
   errorText: {
     color: 'red',
     fontSize: 12,
     marginTop: 0,
     // alignSelf: 'center'
+  },
+  title: {
+    marginTop: spacingX._10,
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  line:{
+    height:1,
+    marginTop: spacingY._10
   },
 })
 
