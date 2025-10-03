@@ -1,15 +1,16 @@
 {
   "expo": {
-    "owner": "noorshbaro",
+    "owner": "jasquare",
     "name": "DStar News",
     "slug": "dstar-news",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/logo-01.png",
     "scheme": "dstarnews",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "usesAppleSignIn": true,
       "bundleIdentifier": "com.dstarnews.app",
       "infoPlist": {
         "UIBackgroundModes": [
@@ -19,6 +20,7 @@
         "ITSAppUsesNonExemptEncryption": false
       },
       "entitlements": {
+        "com.apple.developer.networking.wifi-info": true,
         "aps-environment": "development",
         "com.apple.security.application-groups": [
           "group.com.dstarnews.app.onesignal",
@@ -36,7 +38,9 @@
       "googleServicesFile": "./google-services.json",
       "package": "com.dstarnews.app",
       "permissions": [
-        "NOTIFICATIONS"
+        "NOTIFICATIONS",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
       ]
     },
     "web": {
@@ -90,7 +94,7 @@
             }
           }
         },
-        "projectId": "da1cc580-7ca1-40d8-8c90-e2587ffee735"
+        "projectId": "5c8e55aa-2afc-4309-9be6-833d5b891a2b"
       }
     }
   }

@@ -11,30 +11,17 @@ import { useRouter } from 'expo-router'
 // import * as Icons from 'phosphor-react-native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Linking, TouchableOpacity, View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { styles } from '../../styles/profile.styles'
 
-const Profile = () => {
+const Settings = () => {
   const { theme, mode, toggleTheme } = useTheme();
   const router = useRouter();
 
   const accountOptions: accountOptionType[] = [
-    // {
-    //   title: `View Profile`,
-    //   icon: (
-    //     <MaterialIcons
-    //       name='person'
-    //       size={26}
-    //       color={theme.colors.white}
-    //       weight='fill'
-    //     />
-    //   ),
-    //   routeName: '/forms/profileModal',
-    //   bgColor: '#6366f1'
-    // },
     {
-      title: `Term of use`,
+      title: `Terms of use`,
       icon: (
         <MaterialIcons
           name='policy'
@@ -43,8 +30,8 @@ const Profile = () => {
           weight='fill'
         />
       ),
-      // routeName: '/(modals)/profileModal',
-      bgColor: '#059669'
+      // bgColor: '#059669'
+      bgColor: theme.colors.disabled
     },
     {
       title: `Privacy policy`,
@@ -56,62 +43,36 @@ const Profile = () => {
           weight='fill'
         />
       ),
-      // routeName: '/(modals)/profileModal',
-      bgColor: theme.colors.info
+      // bgColor: theme.colors.info
+      bgColor: theme.colors.disabled
     },
-    // {
-    //   title: `Logout`,
-    //   icon: (
-    //     <MaterialIcons
-    //       name='power-settings-new'
-    //       size={26}
-    //       color={theme.colors.white}
-    //       weight='fill'
-    //     />
-    //   ),
-    //   // routeName: '/(modals)/profileModal',
-    //   bgColor: '#e11d48'
-    // },
+    {
+      title: `Contact us`,
+      icon: (
+        <MaterialIcons
+          name='help-outline'
+          size={26}
+          color={theme.colors.white}
+          weight='fill'
+        />
+      ),
+      // bgColor: '#9333EA'
+      bgColor: theme.colors.disabled
+      
+    },
   ]
 
   const handlePress = async (item: accountOptionType) => {
-
-    if (item.routeName) {
+    if (item.title == 'Contact us') {
+      Linking.openURL('mailto:info@dstar.news')
+    } else {
       router.push(item.routeName)
     }
   }
 
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     if (!accessToken) throw new Error('Authentication token not found.');
-
-  //     const response = await apiClient.get('/citizen/user', {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-
-  //     const result = response.data;
-
-  //     setUserData({
-  //       name: result.name || '',
-  //       email: result.email || '',
-  //       phone: result.phone?.toString() || '',
-  //     });
-
-  //     // if (result.profile_image) {
-  //     //     setProfileImage(result.profile_image);
-  //     // }
-
-  //   } catch (err: any) {
-  //     console.log('Error fetching user profile:', err.message);
-  //     Alert.alert('Error', 'Could not load your profile.');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchUserProfile();
-  // }, []);
+  const imageSource = theme.mode === 'dark'
+    ? require('@/assets/images/abyad-05.png')
+    : require('@/assets/images/aswad-02.png');
 
   return (
     <ScreenWrapper>
@@ -119,36 +80,20 @@ const Profile = () => {
         <BackButton iconSize={28} />
         {/** header */}
         <Header title='Settings' style={{ marginVertical: spacingY._10 }} />
-
-        {/** user info */}
-        {/* <View style={styles.userInfo}> */}
-        {/** avatar */}
         <View style={styles.avatarContainer}>
           <Image
-            style={[styles.avatar, {   }]}
-            source={require('@/assets/images/abyad-02.png')}
-            contentFit='cover'
+            style={[styles.avatar, {}]}
+            source={imageSource}
+            contentFit='contain'
             transition={100}
           />
 
         </View>
 
-        {/** name & email */}
-        {/* <View style={styles.nameContainer}>
-              <Typo size={24} fontWeight={'600'} color={theme.colors.textPrimary}>
-                {userData.name}
-              </Typo>
-              <Typo size={15} color={theme.colors.textSecondary}>
-                {userData.email}
-              </Typo>
-            </View> */}
-        {/* </View> */}
-
-        {/** account options */}
         <View style={styles.accountOptions}>
           <Animated.View
             style={[styles.listItem]}
-            entering={FadeInDown.delay(50).springify().damping(14)}
+            entering={FadeInDown.delay(50).springify().damping(30).stiffness(200)}
           >
             <TouchableOpacity
               style={[
@@ -156,7 +101,10 @@ const Profile = () => {
               ]}
               onPress={toggleTheme}
             >
-              <View style={[styles.listIcon, { backgroundColor: '#F39C12' }]}>
+              <View style={[styles.listIcon, { 
+                // backgroundColor: '#F39C12'
+                backgroundColor: theme.colors.disabled
+                 }]}>
                 {
                   mode === 'dark' ? <MaterialIcons
                     name='sunny'
@@ -164,7 +112,7 @@ const Profile = () => {
                     weight="fill"
                     color={theme.colors.white}
                   /> : <MaterialIcons
-                    name='shield-moon'
+                    name='nightlight-round'
                     size={26}
                     weight="fill"
                     color={theme.colors.white}
@@ -193,7 +141,7 @@ const Profile = () => {
           {
             accountOptions.map((item, index) => {
               return (
-                <Animated.View key={index.toString()} style={styles.listItem} entering={FadeInDown.delay(index * 50).springify().damping(14)}>
+                <Animated.View key={index.toString()} style={styles.listItem} entering={FadeInDown.delay(index * 50).springify().damping(30).stiffness(200)}>
                   <TouchableOpacity style={styles.flexRow} onPress={() => handlePress(item)}>
                     {/** icon */}
                     <View style={[styles.listIcon, { backgroundColor: item?.bgColor }]}>
@@ -216,11 +164,10 @@ const Profile = () => {
             })
           }
 
-
         </View>
       </View>
     </ScreenWrapper>
   )
 }
 
-export default Profile
+export default Settings

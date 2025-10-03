@@ -9,7 +9,7 @@ const Loading = ({
     const { theme } = useTheme();
     const finalColor = color || theme.colors.primaryLight;
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{  justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size={size} color={finalColor} />
         </View>
     )

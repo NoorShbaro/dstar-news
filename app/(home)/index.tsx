@@ -160,9 +160,10 @@ const Home = () => {
         </View>
         <TouchableOpacity
           style={[styles.searchIcon, { backgroundColor: theme.colors.disabled }]}
-          onPress={toggleTheme}
+          // onPress={toggleTheme}
+          onPress={()=>{router.push('/settings')}}
         >
-          {mode === 'dark' ? (
+          {/* {mode === 'dark' ? (
             <MaterialIcons
               name="sunny"
               size={20}
@@ -176,7 +177,13 @@ const Home = () => {
               weight="fill"
               color={theme.colors.white}
             />
-          )}
+          )} */}
+          <MaterialIcons
+            name="settings"
+            size={20}
+            weight="fill"
+            color={theme.colors.white}
+          />
         </TouchableOpacity>
       </View>
       <CategorySlider
@@ -215,13 +222,6 @@ const Home = () => {
         ListHeaderComponent={
           <>
             <View style={styles.container}>
-              {/* <CategorySlider
-                data={categories}
-                loading={loadingCategories}
-                error={errorMessage}
-                onSelect={handleCategoryChange}
-                selectedCategoryId={selectedCategoryId}
-              /> */}
               <TopSlider data={breakingNews} loading={loadingBreakingNews} />
             </View>
           </>

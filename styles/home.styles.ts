@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
   },
   scrollViewStyle: {
     // marginTop: spacingY._10,
-    // paddingBottom: verticalScale(100),
+    paddingBottom: verticalScale(80),
     // gap: spacingY._20,
     // marginHorizontal: spacingX._10
   },

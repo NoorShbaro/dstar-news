@@ -20,9 +20,9 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     // backgroundColor: 300
     height: verticalScale(135),
-    width: verticalScale(135),
+    width: verticalScale(80),
     // borderRadius: 200,
-    resizeMode: 'contain'
+    // resizeMode: 'contain'
     // borderWidth: 1,
   },
   editIcon: {
