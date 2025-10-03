@@ -20,19 +20,19 @@ const Settings = () => {
   const router = useRouter();
 
   const accountOptions: accountOptionType[] = [
-    {
-      title: `Terms of use`,
-      icon: (
-        <MaterialIcons
-          name='policy'
-          size={26}
-          color={theme.colors.white}
-          weight='fill'
-        />
-      ),
-      // bgColor: '#059669'
-      bgColor: theme.colors.disabled
-    },
+    // {
+    //   title: `Terms of use`,
+    //   icon: (
+    //     <MaterialIcons
+    //       name='policy'
+    //       size={26}
+    //       color={theme.colors.white}
+    //       weight='fill'
+    //     />
+    //   ),
+    //   // bgColor: '#059669'
+    //   bgColor: theme.colors.disabled
+    // },
     {
       title: `Privacy policy`,
       icon: (
@@ -58,13 +58,15 @@ const Settings = () => {
       ),
       // bgColor: '#9333EA'
       bgColor: theme.colors.disabled
-      
+
     },
   ]
 
   const handlePress = async (item: accountOptionType) => {
     if (item.title == 'Contact us') {
       Linking.openURL('mailto:info@dstar.news')
+    } else if (item.title == 'Privacy policy') {
+      Linking.openURL('https://dstar.news/privacy-policy')
     } else {
       router.push(item.routeName)
     }
@@ -101,10 +103,10 @@ const Settings = () => {
               ]}
               onPress={toggleTheme}
             >
-              <View style={[styles.listIcon, { 
+              <View style={[styles.listIcon, {
                 // backgroundColor: '#F39C12'
                 backgroundColor: theme.colors.disabled
-                 }]}>
+              }]}>
                 {
                   mode === 'dark' ? <MaterialIcons
                     name='sunny'
